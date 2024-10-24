@@ -9,7 +9,7 @@ app = Flask(__name__)
 CORS(app)
 
 # Configure the PostgreSQL database
-app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:Admin@localhost:5432/DueDeligenceDb'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:admin@localhost:5432/DueDeligenceDb'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 # Initialize SQLAlchemy
@@ -52,9 +52,27 @@ with app.app_context():
     db.create_all()
     print("All tables created successfully!")
 
+
+def insert_default_departments():
+    if not Department.query.first():  # Check if the table is empty
+        default_departments = [
+            'Electrical System',
+            'Mechanical System',
+            'Water and Waste System',
+            'Fire Protection System',
+            'Building Services and Amenities',
+            'Security System'
+        ]
+        # Insert each department into the Department table
+        for deptname in default_departments:
+            new_dept = Department(deptname=deptname)
+            db.session.add(new_dept)
+        db.session.commit()
+
 # global_table_data=None
 @app.route('/')
 def indexPage():
+    insert_default_departments()
     departments = Department.query.all()
     return render_template('due_deligence.html', departments=departments)
 
@@ -77,7 +95,7 @@ def submit_table_data():
     # Add and commit to the database
     db.session.add(table_entry)
     db.session.commit()
-    print('Received table data:', table_entry)
+    print('Received table data:', new_table)
 
     # Return a JSON response with the redirect URL
     return jsonify({'redirect': url_for('due_deligence')})
@@ -85,6 +103,14 @@ def submit_table_data():
 @app.route('/due-deligence')
 def due_deligence():
     return render_template( 'due-deligence.html')
+
+@app.route('/auth-signin')
+def auth_signin():
+    return render_template('auth-signin.html')
+
+@app.route('/auth-signup')
+def auth_signup():
+    return render_template('auth-signup.html')
 
 @app.route('/get-table-data', methods=['GET'])
 def get_table_data():
@@ -102,6 +128,10 @@ def get_table_data():
     
     # Return the data as JSON
     return jsonify(tables)
+
+@app.route('/all-reports')
+def all_reports():
+    return render_template('all_reports.html')
 
 if __name__ == '__main__':
     app.run(debug=True)

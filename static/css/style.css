@@ -23761,7 +23761,7 @@ pre[class*=language-]:before {
     font-size: 13px;
     color: #37474f;
     background: #ecf0f5;
-    text-transform: uppercase;
+    /* text-transform: uppercase; */
 }
 
 .table tbody + tbody {
@@ -24219,3 +24219,18 @@ div.dtk-focus-alt table.dataTable tbody th.focus {
     margin-bottom: 5px;
     padding: 1px; */
   }
+  .editable-column {
+    cursor: text;
+    border-bottom: 1px dashed #ccc; /* Indicate it's editable */
+}
+.editable-column:focus {
+    border-bottom: 1px solid #007bff; /* Highlight when editing */
+    outline: none;
+}
+.edit-btn{
+    color: #FFC107 !important;
+    text-decoration: none;
+}
+.delete-btn{
+    color: #E34724 !important;
+}

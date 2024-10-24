@@ -18,6 +18,7 @@
     <meta name="author" content="Phoenixcoded" />
     <!-- Favicon icon -->
     <link rel="icon" href="assets/images/favicon.ico" type="image/x-icon">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
 
     <!-- vendor css -->
     <!-- <link rel="stylesheet" href="assets/css/style.css"> -->
@@ -53,11 +54,11 @@
                         </ul>
                     </li>
                     <li class="nav-item" >
-                    <a href="{{ url_for('all_reports') }}">
-                        All Reports
-                    </a>
-
+                        <a href="{{ url_for('indexPage') }}">
+                            Due Deligence
+                        </a>
                     </li> 
+                    <!-- <li class="nav-item"><a href="sample-page.html" class="nav-link "><span class="pcoded-micon"><i class="feather icon-sidebar"></i></span><span class="pcoded-mtext">Sample page</span></a></li>  -->
 
                 </ul>
             </div>
@@ -187,58 +188,54 @@
             </div>
          </div>
         <div class="row">
-            <div class="col-sm-12">
+            <!-- <div class="col-sm-12"> -->
+            <div class="col-md-12">
                 <div class="card">
                     <div class="card-header">
-                        <h5>Infrastructure Evaluation</h5>
+                        <h5>Infrastructure Table</h5>
+                        <span class="d-block m-t-5"></span>
                     </div>
-                    <div class="card-body">
-                        <div class="row">
-                            <div class="col-md-6">
-                                <form id="evaluationForm">
-                                    <div class="form-group">
-                                        <label for="exampleInputEmail1">Department<span class="imp">*</span></label>
-                                        <select class="form-control" id="category">
-                                            <option value="">select</option>
-                                            {% for department in departments %}
-                                              
-                                            <option value="{{ department.id }}">{{ department.deptname }}</option>
-                                            {% endfor %}
-                                            
-                                        </select>
-                                        <p class="department-error"></p>
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="exampleInputPassword1">Sub Category</label>
-                                        <input type="text" class="form-control" id="subcategory" aria-describedby="emailHelp" placeholder="Enter subcategory">
-                                    </div>
-                                    <div class="buttons-group">
-                                        <button type="submit" class="btn  btn-primary">Submit</button>
-                                        <button type="reset" class="btn  btn-secondary reset-btn" type="button">Reset</button>
-                                    </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label>Screen Name <span class="imp">*</span></label>
-                                    <input type="text" class="form-control screen-name" placeholder="Enter Screen Name">
-                                    <p class="screen-error"></p>
-                                </div>
-                                <div class="form-group">
-                                    <label for="exampleFormControlSelect1">Data to be Captured <span class="imp">*</span></label>
-                                    <input type="number" class="form-control count-data" placeholder="Enter Number of Columns required">
-                                    <p class="count-error"></p>
-                                </div>
-
-                                </div>
-                                <!-- <div class="buttons-group">
-                                    <button type="submit" class="btn  btn-primary">Submit</button>
-                                    <button type="reset" class="btn  btn-secondary reset-btn" type="button">Reset</button>
-                                </div> -->
-                            </form>
+                    <div class="card-body table-border-style">
+                        <div class="table-responsive">
+                            <table class="table table-hover table-striped">
+                                <thead>
+                                    <tr>
+                                        <!-- <th>#</th> -->
+                                        <th>Department</th>
+                                        <th>Assets</th>
+                                        <th>Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <!-- <td>1</td> -->
+                                        <td>Mark</td>
+                                        <td>Otto</td>
+                                        <td>
+                                            <a class="edit edit-btn" title="Edit" style="cursor: pointer;" href="{{ url_for('indexPage') }}" ><i class="material-icons">&#xE254;</i></a>
+                                            <a class="delete delete-btn" title="Delete"><i class="material-icons" style="cursor: pointer;">&#xE872;</i></a>
+                                        </td>
+                                    </tr>
+                                    <!-- <tr>
+                                        <td>Jacob</td>
+                                        <td>Thornton</td>
+                                        <td>@fat</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Larry</td>
+                                        <td>the Bird</td>
+                                        <td>@twitter</td>
+                                    </tr> -->
+                                </tbody>
+                            </table>
                         </div>
-                        <div class="col-xl-12 infra-table" id="infraTable">
-                            
-                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+        
         <!-- <script src="assets/js/vendor-all.min.js"></script>
         <script src="assets/js/plugins/bootstrap.min.js"></script>
         <script src="assets/js/ripple.js"></script>

@@ -126,7 +126,7 @@ function tableCreation(tableName, count) {
             const columnText = `Column${i}`;
             
             th.innerHTML = `
-                <span class="editable-column">${columnText}</span>
+                <span class="editable-column" contenteditable="true">${columnText}</span>
                 <a class="edit" title="Edit" data-toggle="tooltip">
                     <i class="fa fa-pencil"></i>
                 </a>`;
@@ -170,7 +170,7 @@ function tableCreation(tableName, count) {
     const buttonsDiv = document.createElement('div');
     buttonsDiv.className = "submit-table mt-3";
     buttonsDiv.innerHTML = `
-        <button type="submit" class="btn btn-primary" id="save-table">Save</button>
+        <button type="submit" class="btn btn-primary" id="save-table" >Save</button>
         <button type="reset" class="btn btn-warning" id="reset-table">Reset</button>
         <button class="btn btn-info back-btn">Back</button>
     `;
@@ -191,7 +191,8 @@ function tableCreation(tableName, count) {
         console.log('Table Data:', tableData); // Displaying the data for debugging
         
         // Display submitted table data (optional)
-        displaySubmittedTableData();
+        // displaySubmittedTableData();
+        // window.location.href = '../templates/all_reports.html';
     });
 }
 
@@ -230,7 +231,7 @@ document.addEventListener('click', function (event) {
             if (response.ok) {
                 // Handle success if needed (optional)
                 console.log('Successfully submitted data');
-                window.location.href = '/due-deligence';
+                // window.location.href = '/due-deligence';
 
             }
         })

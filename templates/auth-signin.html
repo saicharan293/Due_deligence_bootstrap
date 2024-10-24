@@ -21,7 +21,9 @@
 	<link rel="icon" href="assets/images/favicon.ico" type="image/x-icon">
 
 	<!-- vendor css -->
-	<link rel="stylesheet" href="assets/css/style.css">
+	<!-- <link rel="stylesheet" href="assets/css/style.css"> -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+
 	
 	
 
@@ -49,9 +51,9 @@
 							<input type="checkbox" class="custom-control-input" id="customCheck1">
 							<label class="custom-control-label" for="customCheck1">Save credentials.</label>
 						</div> -->
-						<button class="btn btn-block btn-primary mb-4"><a href="form.html" class="f-w-400" style="color: #fff; text-decoration: none">Sign in</a></button>
+						<a href="{{ url_for('indexPage') }}" class="f-w-400" style="color: #fff; text-decoration: none"><button class="btn btn-block btn-primary mb-4">Sign in</button></a>
 						<!-- <p class="mb-2 text-muted">Forgot password? <a href="auth-reset-password.html" class="f-w-400">Reset</a></p> -->
-						<p class="mb-0 text-muted">Don’t have an account? <a href="auth-signup.html" class="f-w-400">Signup</a></p>
+						<p class="mb-0 text-muted">Don’t have an account? <a href="{{ url_for('auth_signup') }}" class="f-w-400">Signup</a></p>
 					</div>
 				</div>
 			</div>
