@@ -1,5 +1,10 @@
 SELECT * FROM public.department;
 
+SELECT * From public.table_data;
+
+DELETE FROM table_data
+WHERE table_name = 'sub';
+
 INSERT INTO public.department (deptname) VALUES
 ('Electrical System'),
 ('Mechanical System'),

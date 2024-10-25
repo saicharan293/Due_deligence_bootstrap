@@ -23,29 +23,7 @@
     <!-- <link rel="stylesheet" href="assets/css/style.css"> -->
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 
-    <style>
-        .imp{
-            color: red;
-        }
-        .error {
-            color: red;
-        }
-        .editable-column {
-        cursor: text;
-        border-bottom: 1px dashed #ccc; /* Indicate it's editable */
-        }
-        .editable-column:focus {
-            border-bottom: 1px solid #007bff; /* Highlight when editing */
-            outline: none;
-        }
-        .edit-btn{
-            color: #FFC107 !important;
-            text-decoration: none;
-        }
-        .delete-btn{
-            color: #E34724 !important;
-        }
-    </style>
+    
     
 
 </head>
@@ -219,59 +197,163 @@
 
             </div>
          </div>
-        <div class="row">
+         <div class="row">
             <div class="col-sm-12">
                 <div class="card">
                     <div class="card-header">
-                        <h5>Infrastructure Evaluation</h5>
+                        <h5>Manage Permission</h5>
                     </div>
                     <div class="card-body">
-                        <div class="row">
-                            <div class="col-md-6">
-                                <form id="evaluationForm">
+                        <form>
+                            <div class="row">
+                                <div class="col-sm-3">
                                     <div class="form-group">
-                                        <label for="exampleInputEmail1">Department<span class="imp">*</span></label>
-                                        <select class="form-control" id="category">
-                                            <option value="">Select Department</option>
-                                            {% for department in departments %}
-                                              
-                                            <option value="{{ department.deptname }}"  id="{{ department.id }}" {% if department.deptname == department_name %}selected{% endif %}>{{ department.deptname }}</option>
-                                            {% endfor %}
-                                            
+                                        <label class="floating-label" for="Email">Role</label>
+                                        <select class="form-control" id="exampleFormControlSelect1">
+                                            <option>Select</option>
+                                            <option>Role 1</option>
+                                            <option>Role 2</option>
+                                            <option>Role 3</option>
+                                            <option>Role 4</option>
+                                            <option>Role 5</option>
                                         </select>
-                                        <p class="department-error"></p>
                                     </div>
-                                    <!-- <div class="form-group">
-                                        <label for="exampleInputPassword1">Sub Category</label>
-                                        <input type="text" class="form-control" id="subcategory" aria-describedby="emailHelp" placeholder="Enter subcategory">
-                                    </div> -->
-                                    <div class="buttons-group">
+                                </div>
+                                <div class="col-sm-3">
+                                    <div class="form-group">
+                                        <label class="floating-label" for="Text">Department</label>
+                                        <select class="form-control" id="exampleFormControlSelect1">
+                                            <option>Select</option>
+                                            <option>Department 1</option>
+                                            <option>Department 2</option>
+                                            <option>Department 3</option>
+                                            <option>Department 4</option>
+                                            <option>Department 5</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-sm-3">
+                                    <div class="form-group">
+                                        <label class="floating-label" for="Text">User</label>
+                                        <select class="form-control" id="exampleFormControlSelect1">
+                                            <option>Select</option>
+                                            <option>User 1</option>
+                                            <option>User 2</option>
+                                            <option>User 3</option>
+                                            <option>User 4</option>
+                                            <option>User 5</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-sm-3">
+                                    <div class="form-group">
                                         <button type="submit" class="btn  btn-primary">Proceed</button>
-                                        <button type="reset" class="btn  btn-secondary reset-btn" type="button">Reset</button>
                                     </div>
+                                </div>
                             </div>
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label>Screen Name <span class="imp">*</span></label>
-                                    <input type="text" class="form-control screen-name" placeholder="Enter Screen Name" value="{{ screen_name }}">
-                                    <p class="screen-error"></p>
-                                </div>
-                                <div class="form-group">
-                                    <label for="exampleFormControlSelect1">Data to be Captured <span class="imp">*</span></label>
-                                    <input type="number" class="form-control count-data" placeholder="Enter Number of Columns required"value="{{ columns|length }}">
-                                    <p class="count-error"></p>
-                                </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <!-- [ form-element ] start -->
+            <div class="col-sm-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h5>View/Manage Permissions</h5>
+                    </div>
+                    <div class="card-body">
 
+                        <div class="row">
+
+                            <div class="col-md-12">
+                                <div class="table-responsive">
+                                    <table class="table table-striped">
+                                        <thead>
+                                            <tr>
+                                                <th>Page</th>
+                                                <th>Read (Can only view)</th>
+                                                <th>Write (Can edit and view) </th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td>Manage Role</td>
+                                                <td><input type="checkbox" checked></td>
+                                                <td>
+                                                    <input type="checkbox">
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>Manage User</td>
+                                                <td><input type="checkbox"></td>
+                                                <td>
+                                                    <input type="checkbox" checked>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>Manage Department</td>
+                                                <td><input type="checkbox" checked></td>
+                                                <td>
+                                                    <input type="checkbox">
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>Manage Product</td>
+                                                <td><input type="checkbox"></td>
+                                                <td>
+                                                    <input type="checkbox" checked>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+
+                                    </table>
+                                    <div id="pagination" class="d-flex justify-content-end mt-3">
+                                        <ul class="pagination">
+                                            <li class="page-item"><a class="page-link" href="#" id="prevPage"
+                                                    aria-label="Previous">&laquo;</a></li>
+                                            <!-- Page number buttons will be generated dynamically -->
+                                            <li class="page-item"><a class="page-link" href="#" id="nextPage"
+                                                    aria-label="Next">&raquo;</a></li>
+                                        </ul>
+                                    </div>
                                 </div>
-                                <!-- <div class="buttons-group">
+                            </div>
+                            <div class="col-sm-3">
+                                <div class="form-group">
                                     <button type="submit" class="btn  btn-primary">Submit</button>
-                                    <button type="reset" class="btn  btn-secondary reset-btn" type="button">Reset</button>
-                                </div> -->
-                            </form>
+                                </div>
+                            </div>
                         </div>
-                        <div class="col-xl-12 infra-table" id="infraTable">
-                            
-                        </div>
+
+                        <script>
+                            // Example starter JavaScript for disabling form submissions if there are invalid fields
+                            (function () {
+                                'use strict';
+                                window.addEventListener('load', function () {
+                                    // Fetch all the forms we want to apply custom Bootstrap validation styles to
+                                    var forms = document.getElementsByClassName('needs-validation');
+                                    // Loop over them and prevent submission
+                                    var validation = Array.prototype.filter.call(forms, function (form) {
+                                        form.addEventListener('submit', function (event) {
+                                            if (form.checkValidity() === false) {
+                                                event.preventDefault();
+                                                event.stopPropagation();
+                                            }
+                                            form.classList.add('was-validated');
+                                        }, false);
+                                    });
+                                }, false);
+                            })();
+                        </script>
+
+
+                    </div>
+                    <!-- [ form-element ] end -->
+                </div>
+                <!-- [ Main Content ] end -->
+
+            </div>
+        </div>
         <!-- <script src="assets/js/vendor-all.min.js"></script>
         <script src="assets/js/plugins/bootstrap.min.js"></script>
         <script src="assets/js/ripple.js"></script>
