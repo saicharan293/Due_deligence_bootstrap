@@ -9,7 +9,7 @@ app = Flask(__name__)
 CORS(app)
 
 # Configure the PostgreSQL database
-app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:Admin@localhost:5432/DueDeligenceDb'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:admin@localhost:5432/DueDeligenceDb'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 # Initialize SQLAlchemy
@@ -86,21 +86,27 @@ def indexPage():
     insert_default_departments()  # Your existing function to insert departments
     departments = Department.query.all()
     department_name = request.args.get('deptname', '')
+    tabledataId=request.args.get('tabledataId','')
     screen_name = request.args.get('screen_name', '')
     columns = request.args.get('columns', '[]')
+    row_data=request.args.get('row_data','[]')
 
     # Convert columns back from JSON string to a list
     import json
     try:
         columns_list = json.loads(columns)
+        row_data=json.loads(row_data)
     except json.JSONDecodeError:
         columns_list = []
+    # print('deptname',department_name,'tableid',tabledataId,'screenname',screen_name,'rowdata',row_data,'columns list',columns_list)
 
-    return render_template('due_deligence.html', 
+    return render_template('due_deligence.html',
+                           tabledataId=tabledataId, 
                            departments=departments, 
                            department_name=department_name,
                            screen_name=screen_name,
-                           columns=columns_list)
+                           columns=columns_list,
+                           row_data=row_data)
 
 @app.route('/edit-table-data', methods=['GET'])
 def edit_table_data():
@@ -112,39 +118,59 @@ def edit_table_data():
 
         # Prepare data to be sent in the response
         result = {
+            'tabledataId':table_data[0].id,
             'deptname': table_data[0].department.deptname,  # Assuming all records are for the same department
             'screen_name': table_data[0].screen_name,
             'columns': table_data[0].columns,
             'row_data': table_data[0].row_data
         }
+        # print('result',result);
 
         return jsonify(result)
 
     return jsonify({'error': 'screen_name parameter is required'}), 400
 
 
-
-
 @app.route('/submit-table-data', methods=['POST'])
 def submit_table_data():
     data = request.json
+    print('data is',data)
     screen_name = data.get('screen_name')
     columns = data.get('columns')
     row_data = data.get('row_data')
-    department_id = data.get('department_id')
+    deptname = data.get('deptname')
+    deptname=deptname.replace('_',' ')
 
-    # Create a new TableData instance
-    table_entry = ScreenData(screen_name=screen_name, columns=columns, row_data=row_data, department_id=department_id)
-
-    # Add and commit to the database
-    db.session.add(table_entry)
-    db.session.commit()
-    # print('data entry success',table_entry)
-
-
-
-    return jsonify({'redirect': url_for('due_deligence')})
-
+    department = Department.query.filter_by(deptname=deptname).first()
+    print('department',deptname)
+    if department is None:
+        return jsonify({'error': 'Department not found'}, 404)
+    
+    department_id = department.id
+    tabledataId = data.get('tabledataId')  # Get the ID from the request
+    print('tableId',tabledataId)
+    if tabledataId == "":
+        # Try to find the existing entry by ID
+        table_entry = ScreenData.query.get(tabledataId)
+        if table_entry:
+            # Update the existing entry
+            table_entry.screen_name = screen_name
+            table_entry.columns = columns
+            table_entry.row_data = row_data
+            table_entry.department_id = department_id
+            db.session.commit()
+            return jsonify({'redirect': url_for('view_infrastructure')})
+        else:
+            return jsonify({'error': 'Entry not found'}, 404)
+    else:
+        print('entered else')
+        # Create a new TableData instance
+        table_entry = ScreenData(screen_name=screen_name, columns=columns, row_data=row_data, department_id=department_id)
+        print('added new entry')
+        # Add and commit to the database
+        db.session.add(table_entry)
+        db.session.commit()
+        return jsonify({'redirect': url_for('view_infrastructure')})
 
 @app.route('/get-table-data', methods=['GET'])
 def get_table_data():
@@ -162,14 +188,14 @@ def get_table_data():
             'screenName': table_data.screen_name
         }
         tables.append(table_info)
-    
+    # print('get-table-data',tables)
     # Return the data as JSON
     return jsonify(tables)
 
 @app.route('/delete-table-data/<int:id>', methods=['DELETE'])
 def delete_table_data(id):
     # Find the entry by id
-    print('id is',id)
+    # print('id is',id)
     entry = ScreenData.query.get(id)
     if entry is None:
         return jsonify({'error': 'Entry not found'}), 404
@@ -185,8 +211,6 @@ def delete_table_data(id):
 def view_infrastructure():
     return render_template('view_infrastructure.html')
 
-
-
 @app.route('/auth-signin')
 def auth_signin():
     return render_template('auth-signin.html')
@@ -194,9 +218,14 @@ def auth_signin():
 @app.route('/auth-signup')
 def auth_signup():
     return render_template('auth-signup.html')
+
 @app.route('/user_access_control')
 def user_access_control():
     return render_template('user_access_control.html')
+
+@app.route('/add_user_details')
+def add_user_details():
+    return render_template('add_user_details.html')
 
 if __name__ == '__main__':
     app.run(debug=True)

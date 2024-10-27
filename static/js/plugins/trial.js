@@ -67,13 +67,13 @@ function displayTableData(tableData) {
         tbody.appendChild(row);
     // });
 }
-let redirectUrl;
+
+
 document.addEventListener('click', async function(event) {
     const editButton = event.target.closest('.edit-btn');
     if (editButton) {
-        isEditMode=true;
         const screenName = editButton.id;  // Get the screen name from the button ID
-        // console.log('Screen name is', screenName);
+        console.log('Screen name is', screenName);
 
         try {
             // Fetch data from the Flask API
@@ -89,10 +89,10 @@ document.addEventListener('click', async function(event) {
 
             // Use the first entry if multiple records (adapt based on API response structure)
             const tableData = data;
-            // console.log('tabel data', tableData)
+            console.log('tabel data', tableData)
 
             // Redirect to '/' with data in URL parameters (you may need to serialize complex objects)
-            redirectUrl = `/?tabledataId=${encodeURIComponent(tableData.tabledataId)}&deptname=${encodeURIComponent(tableData.deptname)}&screen_name=${encodeURIComponent(tableData.screen_name || "")}&columns=${encodeURIComponent(JSON.stringify(tableData.columns))}&row_data=${encodeURIComponent(JSON.stringify(tableData.row_data))}`;
+            const redirectUrl = `/?tabledataId=${encodeURIComponent(tableData.tabledataId)}&deptname=${encodeURIComponent(tableData.deptname)}&screen_name=${encodeURIComponent(tableData.screen_name || "")}&columns=${encodeURIComponent(JSON.stringify(tableData.columns))}&row_data=${encodeURIComponent(JSON.stringify(tableData.row_data))}`;
             window.location.href = redirectUrl;
 
         } catch (error) {
@@ -105,7 +105,7 @@ document.addEventListener('click', async function(event) {
     const deleteButton = event.target.closest('.delete-btn'); // Assuming you have a class 'delete-btn'
     if (deleteButton) {
         const id = deleteButton.id; // Assuming the id is stored in a data attribute
-        // console.log('Deleting entry with id:', id);
+        console.log('Deleting entry with id:', id);
 
         try {
             const response = await fetch(`/delete-table-data/${id}`, {
@@ -124,7 +124,6 @@ document.addEventListener('click', async function(event) {
 });
 
 
-let isEditMode = false
 
 document.getElementById("evaluationForm").addEventListener("submit", function (event) {
     event.preventDefault();
@@ -138,19 +137,18 @@ document.getElementById("evaluationForm").addEventListener("submit", function (e
     // If you're using a format like "dept-1" and want just the numeric part, use:
     const deptid = parseInt(deptidNumeric);
     // console.log('dept id',deptid)
-    const screen = document.querySelector('.screen-name').value.trim();
+    const screenName = document.querySelector('.screen-name').value.trim();
     // const subcategory = document.getElementById("subcategory").value.trim() || document.getElementById("subcategory").value;
     const countData = document.querySelector('.count-data').value.trim();
     // let isValid = true;
     if(formValidation()){
         var deptname = `${category.replace(/\s+/g, '_')}`;
-        var screenName=`${screen.replace(/\s+/g, '_')}`;
-        isEditMode=false;
-        tableCreation(screenName,countData,deptname,isEditMode);
-        document.querySelector("#evaluationForm").reset();
+        var screen=`${screenName.replace(/\s+/g, '_')}`;
         
+        tableCreation(screen,countData,deptid);
+        document.querySelector("#evaluationForm").reset();
         // formdataReset(category,)
-        // window.history.replaceState({}, document.title, "/");
+        window.history.replaceState({}, document.title, "/");
     }
 });
 
@@ -158,9 +156,8 @@ window.addEventListener('DOMContentLoaded', () => {
     const urlParams = new URLSearchParams(window.location.search);
     const deptname = urlParams.get('deptname');
     const screenName = urlParams.get('screen_name');
-    const tabledataId = urlParams.get('tabledataId')
+    const tabledataId = urlParams.get('id')
     const columns = JSON.parse(urlParams.get('columns') || "[]");
-    // console.log('columns',columns[0])
     const rowData = JSON.parse(urlParams.get('row_data') || "[]");
 
     // Check if in edit mode by verifying if deptname and screenName exist
@@ -168,10 +165,9 @@ window.addEventListener('DOMContentLoaded', () => {
         // Pre-fill form fields for editing
         document.getElementById("category").value = deptname.replace('_', ' ');  // Assuming deptname matches option text
         document.querySelector('.screen-name').value = screenName.replace('_', ' ');
-        isEditMode=true
 
         // Call table creation with existing column and row data
-        tableCreation( screenName, columns.length, deptname, columns, rowData,isEditMode,tabledataId);
+        tableCreation(screenName, columns.length, deptname, columns, rowData);
     }
 });
 
@@ -219,17 +215,12 @@ function formValidation(){
 
 // let tableData = [];
 // screen,countData,deptid,columns,deptname
-function tableCreation(screenName, count, deptname, columns, rowData,isEditMode,tabledataId) {
-    const tablesContainer = document.querySelector('#infraTable'); // Infra-table as the container
-    // console.log('enter table creation')
+function tableCreation(screenName, count, deptid, columns = [], rowData = []) {
+    const tablesContainer = document.querySelector('.infra-table'); // Infra-table as the container
+
     // Create a card structure similar to the reference template
-    tablesContainer.innerHTML=''
-    // isEditMode=true
     const newSection = document.createElement("div");
     newSection.classList.add("col-xl-12", screenName);
-    newSection.id=`${screenName}-${tabledataId}`
-
-    console.log('table id',tabledataId)
     
     newSection.innerHTML = `
         <div class="card mt-3">
@@ -264,7 +255,7 @@ function tableCreation(screenName, count, deptname, columns, rowData,isEditMode,
 
     // Create columns with editable feature
     // edit mode 
-    if (isEditMode) {
+    if (columns.length > 0) {
         for (let i = 0; i < columns.length; i++) {
             const th = document.createElement("th");
             const columnText = columns[i];
@@ -282,7 +273,6 @@ function tableCreation(screenName, count, deptname, columns, rowData,isEditMode,
     } else {
         for (let i = 1; i <= count; i++) {
             const th = document.createElement("th");
-            // console.log('theadings')
             const columnText = `Column${i}`;
             th.innerHTML = `
                 <span class="editable-column" contenteditable="true">${columnText}</span>
@@ -298,12 +288,12 @@ function tableCreation(screenName, count, deptname, columns, rowData,isEditMode,
     const emptyRow = document.createElement("tr");
     const rowStore = {};
 
-    if (isEditMode && (rowData.length > 0)) {
+    if (rowData.length > 0) {
         // const emptyRow = document.createElement("tr");
         columns.forEach((columnName, index) => {
             const td = document.createElement("td");
             const inputType = rowData[`Column${index + 1}`] || "text"; // Get input type or default to "textbox"
-            // console.log('input type', inputType)
+            console.log('input type', inputType)
         
             // Create the dropdown (select) element
             const inputElement = document.createElement("select");
@@ -353,7 +343,9 @@ function tableCreation(screenName, count, deptname, columns, rowData,isEditMode,
             emptyRow.appendChild(td);
         }
         tbody.appendChild(emptyRow);
+
     // tbody.appendChild(dataRow);
+
     // Add submit and reset buttons
     }
     const buttonsDiv = document.createElement('div');
@@ -364,31 +356,7 @@ function tableCreation(screenName, count, deptname, columns, rowData,isEditMode,
         <button class="btn btn-info back-btn" id="back-btn">Back</button>
     `;
     newSection.appendChild(buttonsDiv);
-    // const redirectUrl = `/?tabledataId=${encodeURIComponent(tableData.tabledataId)}`
-    console.log('tabledataid',tabledataId)
 
-    // Store row data in tableData array upon submission
-    // console.log(tabledataId[1])
-    document.getElementById('save-table').addEventListener('click', function () {
-        // tableData.push({ screenName, rowData, deptname, deptid });
-        
-        console.log(tabledataId)
-
-        if(tabledataId){
-            console.log('entered')
-            saveTable(screenName,rowStore,deptname,parseInt(tabledataId))
-        }
-        else{
-            console.log('!entered')
-            saveTable(screenName,rowStore,deptname)
-        }
-        // submitbtn.classList.add('disabled');
-        // submitbtn.disabled = true;
-        
-    });
-    document.getElementById('back-btn').addEventListener('click',function(){
-        window.location.href = '/all-reports';
-    })
     document.addEventListener('click', function (event) {
         if (event.target && event.target.id === 'reset-table') {
             // Reset each input type selector to "Select"
@@ -398,7 +366,18 @@ function tableCreation(screenName, count, deptname, columns, rowData,isEditMode,
             });
         }
     });
+    // Store row data in tableData array upon submission
+    document.getElementById('save-table').addEventListener('click', function () {
+        // tableData.push({ screenName, rowData, deptname, deptid });
+        saveTable(screenName,rowStore,deptid)
+        submitbtn.classList.add('disabled');
+        submitbtn.disabled = true;
+    });
+    document.getElementById('back-btn').addEventListener('click',function(){
+        window.location.href = '/all-reports';
+    })
 }
+
 
 
 
@@ -415,35 +394,19 @@ document.querySelector('.count-data').addEventListener("input", function () {
 });
 
 
-function saveTable(screenName,rowData,deptname,tabledataId){
-    // console.log('enter save table data',tabledataId)
-    // let element=document.querySelector(`#${screenName}-${tabledataId}`)
-    // let tabledataId=element.id.split("-")[1]
+function saveTable(screenName,rowData,deptid){
     document.addEventListener('click', function (event) {
         const columns = []
         if (event.target && event.target.id === 'save-table') {
             document.querySelectorAll('.editable-column').forEach(ele=>{
                 columns.push(ele.innerText)
             })
-            let tableData;
-            console.log('save table id',tabledataId)
-            if(tabledataId){
-
-                tableData = {
-                    tabledataId:tabledataId,
-                    screen_name: screenName,
-                    columns: columns,
-                    row_data: rowData,
-                    deptname: deptname,
-                };
-            }else{
-                tableData = {
-                    screen_name: screenName,
-                    columns: columns,
-                    row_data: rowData,
-                    deptname: deptname,
-                };
-            }
+            const tableData = {
+                screen_name: screenName,
+                columns: columns,
+                row_data: rowData,
+                department_id: deptid,
+            };
             console.log('rev data', tableData);
             fetch('/submit-table-data', {
                 method: 'POST',
@@ -464,11 +427,17 @@ function saveTable(screenName,rowData,deptname,tabledataId){
             .catch(error => {
                 console.error('Error:', error);
             });
-            // getData()
         }
-        
     });
 }
+
+document.addEventListener('click', function(e){
+    const editButton = e.target.closest('.edit-btn');
+    if(editButton){
+        const screenName=editButton.id;
+        console.log('screen name is',screenName)
+    }
+})
 
 
 // Function to make the column names editable

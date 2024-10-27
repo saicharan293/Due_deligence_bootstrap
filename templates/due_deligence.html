@@ -67,7 +67,8 @@
                         <a href="#" class="nav-link "><span class="pcoded-micon"><i class="feather icon-home"></i></span><span class="pcoded-mtext">User Mangement</span></a>
                         
                         <ul class="pcoded-submenu">
-                            <li><a href="{{ url_for('indexPage') }}" >Add User</a></li>
+                            <li><a href="{{ url_for('indexPage') }}" >Add Role</a></li>
+                            <li><a href="{{ url_for('add_user_details') }}" >Add User</a></li>
                             <li><a href="{{ url_for('view_infrastructure') }}" >Add Department</a></li>
                             <li><a href="{{ url_for('user_access_control') }}">User Access Control</a></li>
                         </ul>
@@ -208,70 +209,82 @@
 	</header>
 	<!-- [ Header ] end -->
 <!-- [ Main Content ] start -->
-<section class="pcoded-main-container">
-    <div class="pcoded-content">
-        <!-- [ breadcrumb ] start -->
-        
-        <!-- [ breadcrumb ] end -->
-        <!-- [ Main Content ] start -->
-         <div class="page-header">
-            <div class="page-block">
+    <section class="pcoded-main-container">
+        <div class="pcoded-content">
+            <!-- [ breadcrumb ] start -->
+            
+            <!-- [ breadcrumb ] end -->
+            <!-- [ Main Content ] start -->
+            <div class="page-header">
+                <div class="page-block">
 
+                </div>
             </div>
-         </div>
-        <div class="row">
-            <div class="col-sm-12">
-                <div class="card">
-                    <div class="card-header">
-                        <h5>Infrastructure Evaluation</h5>
-                    </div>
-                    <div class="card-body">
-                        <div class="row">
-                            <div class="col-md-6">
-                                <form id="evaluationForm">
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="card">
+                        <div class="card-header">
+                            <h5>Infrastructure Evaluation</h5>
+                        </div>
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <form id="evaluationForm">
+                                        <div class="form-group">
+                                            <label for="exampleInputEmail1">Department<span class="imp">*</span></label>
+                                            <select class="form-control" id="category">
+                                                <option value="">Select Department</option>
+                                                {% for department in departments %}
+                                                
+                                                <option value="{{ department.deptname }}"  id="{{ department.id }}" {% if department.deptname == department_name %}selected{% endif %}>{{ department.deptname }}</option>
+                                                {% endfor %}
+                                                
+                                            </select>
+                                            <p class="department-error"></p>
+                                        </div>
+                                        <!-- <div class="form-group">
+                                            <label for="exampleInputPassword1">Sub Category</label>
+                                            <input type="text" class="form-control" id="subcategory" aria-describedby="emailHelp" placeholder="Enter subcategory">
+                                        </div> -->
+                                        <!-- <div class="buttons-group">
+                                            <button type="submit" class="btn  btn-primary">Proceed</button>
+                                            <button type="reset" class="btn  btn-secondary reset-btn" type="button">Reset</button>
+                                        </div> -->
+                                </div>
+                                <div class="col-md-4">
                                     <div class="form-group">
-                                        <label for="exampleInputEmail1">Department<span class="imp">*</span></label>
-                                        <select class="form-control" id="category">
-                                            <option value="">Select Department</option>
-                                            {% for department in departments %}
-                                              
-                                            <option value="{{ department.deptname }}"  id="{{ department.id }}" {% if department.deptname == department_name %}selected{% endif %}>{{ department.deptname }}</option>
-                                            {% endfor %}
-                                            
-                                        </select>
-                                        <p class="department-error"></p>
+                                        <label>Screen Name <span class="imp">*</span></label>
+                                        <input type="text" class="form-control screen-name" placeholder="Enter Screen Name" value="{{ screen_name }}">
+                                        <p class="screen-error"></p>
                                     </div>
-                                    <!-- <div class="form-group">
-                                        <label for="exampleInputPassword1">Sub Category</label>
-                                        <input type="text" class="form-control" id="subcategory" aria-describedby="emailHelp" placeholder="Enter subcategory">
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="exampleFormControlSelect1">Data to be Captured <span class="imp">*</span></label>
+                                        <input type="number" class="form-control count-data" placeholder="Enter Number of Columns required"value="{{ columns|length }}">
+                                        <p class="count-error"></p>
+                                    </div>
+
+                                </div>
+                                    <!-- <div class="buttons-group">
+                                        <button type="submit" class="btn  btn-primary">Submit</button>
+                                        <button type="reset" class="btn  btn-secondary reset-btn" type="button">Reset</button>
                                     </div> -->
                                     <div class="buttons-group">
                                         <button type="submit" class="btn  btn-primary">Proceed</button>
                                         <button type="reset" class="btn  btn-secondary reset-btn" type="button">Reset</button>
                                     </div>
+                                </form>
                             </div>
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label>Screen Name <span class="imp">*</span></label>
-                                    <input type="text" class="form-control screen-name" placeholder="Enter Screen Name" value="{{ screen_name }}">
-                                    <p class="screen-error"></p>
-                                </div>
-                                <div class="form-group">
-                                    <label for="exampleFormControlSelect1">Data to be Captured <span class="imp">*</span></label>
-                                    <input type="number" class="form-control count-data" placeholder="Enter Number of Columns required"value="{{ columns|length }}">
-                                    <p class="count-error"></p>
-                                </div>
-
-                                </div>
-                                <!-- <div class="buttons-group">
-                                    <button type="submit" class="btn  btn-primary">Submit</button>
-                                    <button type="reset" class="btn  btn-secondary reset-btn" type="button">Reset</button>
-                                </div> -->
-                            </form>
+                            <div class="col-xl-12 infra-table" id="infraTable">
+                                
+                            </div>
                         </div>
-                        <div class="col-xl-12 infra-table" id="infraTable">
-                            
-                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
         <!-- <script src="assets/js/vendor-all.min.js"></script>
         <script src="assets/js/plugins/bootstrap.min.js"></script>
         <script src="assets/js/ripple.js"></script>

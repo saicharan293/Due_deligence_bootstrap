@@ -17,39 +17,10 @@
     <meta name="keywords" content="">
     <meta name="author" content="Phoenixcoded" />
     <!-- Favicon icon -->
-    <link rel="icon" href="assets/images/favicon.ico" type="image/x-icon">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <link rel="icon" href="../assets/images/favicon.ico" type="image/x-icon">
 
     <!-- vendor css -->
-    <!-- <link rel="stylesheet" href="assets/css/style.css"> -->
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
-    <style>
-        .imp{
-            color: red;
-        }
-        .error {
-            color: red;
-        }
-        .editable-column {
-        cursor: text;
-        border-bottom: 1px dashed #ccc; /* Indicate it's editable */
-        }
-        .editable-column:focus {
-            border-bottom: 1px solid #007bff; /* Highlight when editing */
-            outline: none;
-        }
-        .edit-btn{
-            color: #FFC107 !important;
-            text-decoration: none;
-        }
-        .delete-btn{
-            color: #E34724 !important;
-        }
-    </style>
-
-    
-    
-
 </head>
 <body class="">
 	<!-- [ Pre-loader ] start -->
@@ -72,15 +43,14 @@
                             <li><a href="{{ url_for('indexPage') }}" >Add Role</a></li>
                             <li><a href="{{ url_for('add_user_details') }}" >Add User</a></li>
                             <li><a href="{{ url_for('view_infrastructure') }}" >Add Department</a></li>
-                            <li><a href="{{ url_for('user_access_control') }}" >User Access Control</a></li>
+                            <li><a href="{{ url_for('user_access_control') }}">User Access Control</a></li>
                         </ul>
                     </li>
                      <li class="nav-item pcoded-hasmenu">
-                        <a href="#" class="nav-link "><span class="pcoded-micon"><i class="feather icon-layout"></i></span><span class="pcoded-mtext">compliance mangement</span></a>
+                        <a href="#!" class="nav-link "><span class="pcoded-micon"><i class="feather icon-layout"></i></span><span class="pcoded-mtext">compliance mangement</span></a>
                         <ul class="pcoded-submenu">
                             <li><a href="form.html" >Add statutory</a></li>
                             <li><a href="form.html" >Add compliance details</a></li>
-                            <!-- <li><a href="{{ url_for('view_infrastructure') }}" >All Reports</a></li> -->
                         </ul>
                     </li>
                     <li class="nav-item pcoded-hasmenu" >
@@ -93,7 +63,8 @@
                             <!-- <li><a href="{{ url_for('view_infrastructure') }}" >All Reports</a></li> -->
                         </ul>
     
-                    </li> 
+                        </li> 
+                    
                     <!-- <li class="nav-item"><a href="sample-page.html" class="nav-link "><span class="pcoded-micon"><i class="feather icon-sidebar"></i></span><span class="pcoded-mtext">Sample page</span></a></li>  -->
 
                 </ul>
@@ -105,8 +76,8 @@
             <a class="mobile-menu" id="mobile-collapse" href="#!"><span></span></a>
             <a href="#!" class="b-brand">
                 <!-- ========   change your logo hear   ============ -->
-                <img src="static/images/logo2.svg" alt="" class="logo">
-                <img src="static/images/logo-icon.png" alt="" class="logo-thumb">
+                <img src="url_for(assets/images/logo2.svg)" alt="" class="logo">
+                <img src="url_for(assets/images/logo-icon.png)" alt="" class="logo-thumb">
             </a>
             <a href="#!" class="mob-toggler">
                 <i class="feather icon-more-vertical"></i>
@@ -114,7 +85,7 @@
         </div>
         <div class="collapse navbar-collapse">
             <ul class="navbar-nav mr-auto">
-                <!-- <li class="nav-item">
+                <li class="nav-item">
                     <a href="#!" class="pop-search"><i class="feather icon-search"></i></a>
                     <div class="search-bar">
                         <input type="text" class="form-control border-0 shadow-none" placeholder="Search hear">
@@ -122,10 +93,10 @@
                             <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
-                </li> -->
+                </li>
             </ul>
             <ul class="navbar-nav ml-auto">
-                <!-- <li>
+                <li>
                     <div class="dropdown">
                         <a class="dropdown-toggle" href="#" data-toggle="dropdown"><i class="icon feather icon-bell"></i></a>
                         <div class="dropdown-menu dropdown-menu-right notification">
@@ -185,7 +156,7 @@
                             </div>
                         </div>
                     </div>
-                </li> -->
+                </li>
                 <li>
                     <div class="dropdown drp-user">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">
@@ -193,17 +164,17 @@
                         </a>
                         <div class="dropdown-menu dropdown-menu-right profile-notification">
                             <div class="pro-head">
-                                <img src="static/images/user/avatar-1.jpg" class="img-radius" alt="User-Profile-Image">
+                                <img src="assets/images/user/avatar-1.jpg" class="img-radius" alt="User-Profile-Image">
                                 <span>John Doe</span>
-                                <a href="{{ url_for('auth_signin') }}" class="dud-logout" title="Logout">
+                                <a href="auth-signin.html" class="dud-logout" title="Logout">
                                     <i class="feather icon-log-out"></i>
                                 </a>
                             </div>
-                            <!-- <ul class="pro-body">
+                            <ul class="pro-body">
                                 <li><a href="user-profile.html" class="dropdown-item"><i class="feather icon-user"></i> Profile</a></li>
                                 <li><a href="email_inbox.html" class="dropdown-item"><i class="feather icon-mail"></i> My Messages</a></li>
                                 <li><a href="auth-signin.html" class="dropdown-item"><i class="feather icon-lock"></i> Lock Screen</a></li>
-                            </ul> -->
+                            </ul>
                         </div>
                     </div>
                 </li>
@@ -212,60 +183,135 @@
 	</header>
 	<!-- [ Header ] end -->
 <!-- [ Main Content ] start -->
-<section class="pcoded-main-container">
-    <div class="pcoded-content">
-        <!-- [ breadcrumb ] start -->
-        
-        <!-- [ breadcrumb ] end -->
-        <!-- [ Main Content ] start -->
-         <div class="page-header">
-            <div class="page-block">
-
+    <section class="pcoded-main-container">
+        <div class="pcoded-content">
+            <!-- [ breadcrumb ] start -->
+            <div class="page-header">
+                <div class="page-block">
+                </div>
             </div>
-         </div>
-        <div class="row">
-            <!-- <div class="col-sm-12"> -->
-            <div class="col-md-12">
-                <div class="card">
-                    <div class="card-header">
-                        <h5>View Infrastructure Table</h5>
-                        <span class="d-block m-t-5"></span>
-                        <a href="{{url_for("indexPage")}}" class="btn btn-shadow btn-primary">Add Infrastructure</a>
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="card">
+                        <div class="card-header">
+                            <h5>Add User Details</h5>
+                        </div>
+                        <div class="card-body">
+                            <!-- <h5>Form controls</h5>
+                            <hr> -->
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <form>
+                                        <div class="form-group">
+                                            <label for="fullname">Full Name</label>
+                                            <input type="text" class="form-control" id="fullname" aria-describedby="emailHelp" placeholder="Enter email">
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="email">Email address</label>
+                                            <input type="email" class="form-control" id="email" aria-describedby="emailHelp" placeholder="Enter email">
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="exampleInputPassword1">Password</label>
+                                            <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
+                                        </div>
+                                        <!-- <div class="form-group form-check">
+                                            <input type="checkbox" class="form-check-input" id="exampleCheck1">
+                                            <label class="form-check-label" for="exampleCheck1">Check me out</label>
+                                        </div> -->
+                                        <button type="submit" class="btn  btn-primary">Submit</button>
+                                    <!-- </form> -->
+                                </div>
+                                <div class="col-md-6">
+                                    <!-- <form> -->
+                                        <div class="form-group">
+                                            <label for="username">User Name</label>
+                                            <input type="text" class="form-control" id="username" aria-describedby="emailHelp" placeholder="Enter email">
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="role">Role</label>
+                                            <!-- <input type="text" id="role" class="form-control" placeholder="Text"> -->
+                                            <select class="form-control" id="role">
+                                                <option value="">Select Role</option>
+                                                <option value="electrician">Electrician</option>
+                                                <option value="plumber">Plumber</option>
+                                                <option value="admin">Admin</option>
+                                            </select>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="Departments">Department</label>
+                                            <select class="form-control" id="Departments">
+                                                <option value="">Select Department</option>
+                                                <option value="electrical department">Electrical Department</option>
+                                                <option value="mechanical department">Mechanical Department</option>
+                                                <option value="water and waste department">Water and Waste Department</option>
+                                                <option value="building services and amenities">Building Services and Amenities</option>
+                                                <option value="security system">Security System</option>
+                                                <!-- <option>5</option> -->
+                                            </select>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                            <div class="col-xl-12">
+                            </div>
+                        </div>
                     </div>
-                    <div class="card-body table-border-style">
-                        <div class="table-responsive tablesContainer">
-                            <table class="table table-hover table-striped">
-                                <thead>
-                                    <tr id="header">
-                                        <!-- <th>#</th> -->
-                                        <th>Department</th>
-                                        <th>Screen Name</th>
-                                        <th>Action</th>
-                                    </tr>
-                                </thead>
-                                <tbody id="tbody">
-                                </tbody>
-                            </table>
+                    <div class="card">
+                        <div class="card-header">
+                            <h5>User Details</h5>
+                            <!-- <span class="d-block m-t-5">use class <code>table-striped</code> inside table element</span> -->
+                        </div>
+                        <div class="card-body table-border-style">
+                            <div class="table-responsive">
+                                <table class="table table-striped">
+                                    <thead>
+                                        <tr>
+                                            <th>Username</th>
+                                            <th>Email</th>
+                                            <th>Role</th>
+                                            <th>Description</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>Mark</td>
+                                            <td>Mark@email.com</td>
+                                            <td>Electrician</td>
+                                            <td>Lorem ipsum dolor sit amet.</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Antony</td>
+                                            <td>Antony@email.com</td>
+                                            <td>Mechanic</td>
+                                            <td>Lorem ipsum dolor sit amet.</td>
+                                        </tr>
+                                        <tr>
+                                            <td>William</td>
+                                            <td>William@email.com</td>
+                                            <td>Electrician</td>
+                                            <td>Lorem ipsum dolor sit amet.</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Nick</td>
+                                            <td>Nick@email.com</td>
+                                            <td>Plumber</td>
+                                            <td>Lorem ipsum dolor sit amet.</td>
+                                        </tr>
+                                        
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
-</section>
-        
-        <!-- <script src="assets/js/vendor-all.min.js"></script>
-        <script src="assets/js/plugins/bootstrap.min.js"></script>
-        <script src="assets/js/ripple.js"></script>
-        <script src="assets/js/pcoded.min.js"></script> -->
-        <!-- <script src="assets/js/due_deligence.js"></script>   -->
-    <script src="{{ url_for('static', filename='js/vendor-all.min.js') }}" ></script>
-    <script src="{{ url_for('static', filename='js/plugins/bootstrap.min.js') }}" ></script>
-    <script src="{{ url_for('static', filename='js/ripple.js') }}" ></script>
-    <script src="{{ url_for('static', filename='js/pcoded.min.js') }}" ></script>
-    <script src="{{ url_for('static', filename='js/due_deligence.js') }}" ></script>
-    <script src="{{ url_for('static', filename='js/rev_due.js') }}" ></script>
-
+    </section>
+        <script src="{{ url_for('static', filename='js/vendor-all.min.js') }}" ></script>
+        <script src="{{ url_for('static', filename='js/plugins/bootstrap.min.js') }}" ></script>
+        <script src="{{ url_for('static', filename='js/ripple.js') }}" ></script>
+        <script src="{{ url_for('static', filename='js/pcoded.min.js') }}" ></script>
+        <script src="{{ url_for('static', filename='js/due_deligence.js') }}" ></script>
+        <script src="{{ url_for('static', filename='js/rev_due.js') }}" ></script>
     </body>
-                    
 </html>

@@ -15,3 +15,13 @@ INSERT INTO public.department (deptname) VALUES
 
 SELECT table_name FROM information_schema.tables
 WHERE table_schema = 'public';
+
+SELECT *
+FROM
+  information_schema.columns
+WHERE
+  table_name = 'table_data';
+
+select *
+from table_data
+where false;
